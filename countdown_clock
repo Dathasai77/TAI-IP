@@ -1,0 +1,24 @@
+import time
+
+def countdown(t):
+    while t:
+        days, hours, mins, secs = convert_seconds(t)
+
+        timer = '{:02d}d {:02d}h {:02d}m {:02d}s'.format(days, hours, mins, secs)
+        print(timer, end="\r")
+        time.sleep(1)
+        t -= 1
+
+    print('Fire in the hole!!')
+
+def convert_seconds(seconds):
+    days, remainder = divmod(seconds, 86400)
+    hours, remainder = divmod(remainder, 3600)
+    mins, secs = divmod(remainder, 60)
+    return int(days), int(hours), int(mins), int(secs)
+
+# Input time in seconds
+t = input("Enter the time in seconds: ")
+
+# Function call
+countdown(int(t))
