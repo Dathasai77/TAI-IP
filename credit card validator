@@ -1,13 +1,33 @@
-def luhn_checksum(card_number):
-    def digits_of(n):
-        return [int(d) for d in str(n)]
-    digits = digits_of(card_number)
-    odd_digits = digits[-1::-2]
-    even_digits = digits[-2::-2]
-    checksum = 0
-    checksum += sum(odd_digits)
-    for d in even_digits:
-        checksum += sum(digits_of(d*2))
-    return checksum % 10
+deimport re
 
-print('Valid') if luhn_checksum("4532015112830366")==0 else print('Invalid')
+def validate_credit_card(card_number):
+    # Remove non-numeric characters
+    card_number = re.sub(r'\D', '', card_number)
+
+    # Check if the card number is empty or not a numeric value
+    if not card_number.isdigit() or len(card_number) < 2:
+        return False
+
+    # Apply Luhn algorithm to validate the credit card number
+    total = 0
+    reverse_digits = [int(digit) for digit in reversed(card_number)]
+
+    for i, digit in enumerate(reverse_digits):
+        if i % 2 == 1:  # Change this line back to i % 2 == 1
+            digit *= 2
+            if digit > 9:
+                digit -= 9
+
+        total += digit
+
+    return total % 10 == 0
+
+# Example usage:
+credit_card_number = input("Enter your credit card number: ")
+is_valid = validate_credit_card(credit_card_number)
+
+if is_valid:
+    print("Valid credit card number!")
+else:
+    print("Invalid credit card number.")
+
